@@ -22,6 +22,15 @@ public class DatabaseSeeder implements CommandLineRunner {
             Animals
                    .builder()
                    .id(1L)
+                   .name("Golfinho")
+                   .diet("Peixes pequenos")
+                   .family("Delphinidae")
+                   .species("Tursiops truncatus")
+                   .build(),
+            Animals
+                   .builder()
+                   .id(2L)
+                   .name("Golfinho Teste")
                    .diet("Peixes pequenos")
                    .family("Delphinidae")
                    .species("Tursiops truncatus")
