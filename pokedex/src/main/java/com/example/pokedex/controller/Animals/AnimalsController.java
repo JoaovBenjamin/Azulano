@@ -2,18 +2,22 @@ package com.example.pokedex.controller.Animals;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,8 +33,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+@CacheConfig(cacheNames = "animals")
 @RestController
-@Controller
 @Slf4j
 @RequestMapping("/animals")
 @Tag(name = "Animals")
@@ -39,6 +43,7 @@ public class AnimalsController {
     @Autowired
     AnimalsService service;
 
+    @Cacheable
     @GetMapping("/{id}")
      @Operation(
         summary = "Listar Animais por Id",
@@ -75,9 +80,48 @@ public class AnimalsController {
         return service.findByPages(name, species, pageable);
     }
 
+    @Operation(
+        summary = "Criar Animals",
+        description = "Cria um animals com os dados do corpo da requisição"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Animal criado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique os dados enviados no corpo da requisição")
+    })
+
+    @CacheEvict(allEntries = true)
     @PostMapping
     @ResponseStatus(CREATED)
     public ResponseEntity<EntityModel<Animals>> created(@RequestParam @Valid Animals data){
         return service.created(data);
+    }
+
+    @Operation(
+        summary = "Atualizar Animal",
+        description = "Atualiza animal de acordo com os dados no corpo da requisição"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Animal atualizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique os dados enviados no corpo da requisição")
+    })
+    @CacheEvict(allEntries = true)
+    @PutMapping("{id}")
+    public ResponseEntity<EntityModel<Animals>> put(@RequestParam @Valid Animals data,@PathVariable Long id){
+        return service.put(id, data);
+    }
+
+    @Operation(
+        summary = "Deletar Animal",
+        description = "Deleta Animal com id passado no path"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Animal deletado com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    @CacheEvict(allEntries = true)
+    @DeleteMapping("{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> destroy(@PathVariable Long id){
+        return service.destroy(id);
     }
 }

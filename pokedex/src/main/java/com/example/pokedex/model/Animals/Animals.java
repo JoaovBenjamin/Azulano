@@ -51,8 +51,9 @@ public class Animals extends EntityModel<Animals>  {
         return EntityModel.of(
             this,
             linkTo(methodOn(AnimalsController.class).searchById(id)).withSelfRel(),
+            // linkTo(methodOn(AnimalsController.class).destroy(id)).withRel("delete"),
             linkTo(methodOn(AnimalsController.class).findByPages(null, null, null)).withRel("contents")
-        
+           
         );
     }
 }
