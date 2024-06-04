@@ -1,5 +1,7 @@
 package com.example.pokedex.service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import org.springframework.beans.BeanUtils;
@@ -16,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.pokedex.controller.Habitat.HabitatController;
 import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Animals.Animals;
+import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.repository.Animals.AnimalsRepository;
 
 
@@ -67,23 +71,28 @@ public class AnimalsService {
         return pageAssembler.toModel(page, Animals::toEntityModel);
     }
 
-    public ResponseEntity<EntityModel<Animals>> created(Animals data){
-        repository.save(data);
+    public ResponseEntity<EntityModel<Animals>> created(AnimalsDTO data){
+        Animals newAnimals = new Animals(data);
+        newAnimals = repository.save(newAnimals);
+        
+        EntityModel<Animals> entityModel = EntityModel.of(newAnimals);
+        entityModel.add(linkTo(methodOn(HabitatController.class)).withRel("rel"));
+
 
         return ResponseEntity
-                         .created(data.toEntityModel().getRequiredLink("self").toUri())
-                         .body(data.toEntityModel());
+                         .created(newAnimals.toEntityModel().getRequiredLink("self").toUri())
+                         .body(newAnimals.toEntityModel());
     }
 
-        public ResponseEntity<EntityModel<Animals>> put( Long id, Animals data) {
+        public ResponseEntity<EntityModel<Animals>> put( Long id, AnimalsDTO data) {
         verifyExistsId(id);
         Animals putAnimals = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Equipamento não encontrado"));
         BeanUtils.copyProperties(data, putAnimals, "id");
         repository.save(putAnimals);
         return ResponseEntity
-                            .created(data.toEntityModel().getRequiredLink("self").toUri())
-                            .body(data.toEntityModel());
+                            .created(putAnimals.toEntityModel().getRequiredLink("self").toUri())
+                            .body(putAnimals.toEntityModel());
     }
 
     public ResponseEntity<Void> destroy(Long id){
