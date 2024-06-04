@@ -1,50 +1,62 @@
-// package com.example.pokedex.model.Habitat;
+package com.example.pokedex.model.Habitat;
 
-// import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-// import com.example.pokedex.dto.Habitat.HabitatDTO;
-// import com.example.pokedex.model.Animals.Animals;
+import org.springframework.hateoas.EntityModel;
 
-// import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
-// import jakarta.persistence.ManyToOne;
-// import jakarta.validation.constraints.NotBlank;
-// import jakarta.validation.constraints.NotNull;
-// import jakarta.validation.constraints.Size;
-// import lombok.AllArgsConstructor;
-// import lombok.Builder;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
+import com.example.pokedex.controller.Habitat.HabitatController;
+import com.example.pokedex.dto.Habitat.HabitatDTO;
 
-// @Entity
-// @Data
-// @AllArgsConstructor
-// @NoArgsConstructor
-// @Builder
-// public class Habitat extends EntityModel<Habitat>{
-//     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private long id;
-//     @NotBlank(message = "{habitat.typehabitat.notblank}")
-//     @Size(message = "{habitat.typehabitat.size}", min = 10)
-//     private String typeHabitat;
-//     @NotBlank(message = "{habitat.temperatureWater.notblank}")
-//     @Size(message = "{habitat.temperatureWater.size}", min = 2)
-//     private String temperatureWater;
-//     @NotBlank(message = "{habitat.phWater.notblank}")
-//     @Size(message = "{habitat.ph.size}", min = 2)
-//     private String phWater;
-//     @NotNull(message = "{habitat.animals.notnull}")
-//     @ManyToOne()
-//     private Animals animals;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Habitat extends EntityModel<Habitat>{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @NotBlank(message = "{habitat.typehabitat.notblank}")
+    @Size(message = "{habitat.typehabitat.size}", min = 5)
+    private String typeHabitat;
+    @NotBlank(message = "{habitat.typehabitat.notblank}")
+    @Size(message = "{habitat.typehabitat.size}", min = 5)
+    private String nameHabitat;
+    @NotBlank(message = "{habitat.temperatureWater.notblank}")
+    @Size(message = "{habitat.temperatureWater.size}", min = 2)
+    private String temperatureWater;
+    @NotBlank(message = "{habitat.phWater.notblank}")
+    @Size(message = "{habitat.ph.size}", min = 2)
+    private String phWater;
+
     
 
-//     public Habitat(HabitatDTO data){
-//         this.animals = data.animals();
-//         this.phWater = data.phWater();
-//         this.temperatureWater = data.temperatureWater();
-//         this.typeHabitat = data.typeHabitat();
-//     }
-// }
+    public Habitat(HabitatDTO data){
+        this.phWater = data.phWater();
+        this.temperatureWater = data.temperatureWater();
+        this.typeHabitat = data.typeHabitat();
+        this.nameHabitat = data.nameHabitat();
+    }
+
+       public EntityModel<Habitat> toEntityModel(){
+        return EntityModel.of(
+            this,
+            linkTo(methodOn(HabitatController.class).searchById(id)).withSelfRel()
+            // linkTo(methodOn(AnimalsController.class).destroy(id)).withRel("delete"),
+            // linkTo(methodOn(AnimalsController.class).findByPages(null, null, null)).withRel("contents")
+           
+        );
+    }
+}
 

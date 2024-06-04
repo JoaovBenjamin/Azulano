@@ -1,9 +1,9 @@
-// package com.example.pokedex.repository.Habitat;
+package com.example.pokedex.repository.Habitat;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// import com.example.pokedex.model.Habitat.Habitat;
+import com.example.pokedex.model.Habitat.Habitat;
 
-// public interface HabitatRepository extends JpaRepository<Habitat, Long> {
+public interface HabitatRepository extends JpaRepository<Habitat, Long> {
     
-// }
+}

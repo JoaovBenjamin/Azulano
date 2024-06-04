@@ -27,6 +27,7 @@ import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.service.AnimalsService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -92,7 +93,7 @@ public class AnimalsController {
     @CacheEvict(allEntries = true)
     @PostMapping
     @ResponseStatus(CREATED)
-    public ResponseEntity<EntityModel<Animals>> created(@RequestParam @Valid Animals data){
+    public ResponseEntity<EntityModel<Animals>> created(@RequestBody @Valid Animals data){
         return service.created(data);
     }
 
@@ -106,7 +107,7 @@ public class AnimalsController {
     })
     @CacheEvict(allEntries = true)
     @PutMapping("{id}")
-    public ResponseEntity<EntityModel<Animals>> put(@RequestParam @Valid Animals data,@PathVariable Long id){
+    public ResponseEntity<EntityModel<Animals>> put(@RequestBody @Valid Animals data,@PathVariable Long id){
         return service.put(id, data);
     }
 

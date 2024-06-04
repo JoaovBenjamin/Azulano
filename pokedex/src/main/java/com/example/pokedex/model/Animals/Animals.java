@@ -4,6 +4,7 @@ import org.springframework.hateoas.EntityModel;
 
 import com.example.pokedex.controller.Animals.AnimalsController;
 import com.example.pokedex.dto.Animals.AnimalsDTO;
+import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.service.AnimalsService;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -11,7 +12,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,10 +41,14 @@ public class Animals extends EntityModel<Animals>  {
     private String diet;
     @NotBlank(message = "{animals.species.notblank}")
     @Size(message = "{animals.species.size}", min = 5)
-    private String species;    
+    private String species;
+    @ManyToOne()
+    @NotNull(message = "{animals.habitat.notnull}")
+    private Habitat habitat;    
 
     public Animals (AnimalsDTO data){
         this.diet = data.diet();
+        this.habitat =  data.habitat();
         this.family = data.family();
         this.name = data.name();
         this.species = data.species();
@@ -51,7 +58,7 @@ public class Animals extends EntityModel<Animals>  {
         return EntityModel.of(
             this,
             linkTo(methodOn(AnimalsController.class).searchById(id)).withSelfRel(),
-            // linkTo(methodOn(AnimalsController.class).destroy(id)).withRel("delete"),
+            linkTo(methodOn(AnimalsController.class).destroy(id)).withRel("delete"),
             linkTo(methodOn(AnimalsController.class).findByPages(null, null, null)).withRel("contents")
            
         );
