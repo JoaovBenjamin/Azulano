@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.pokedex.controller.Habitat.HabitatController;
-import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.dto.Habitat.HabitatDTO;
-import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.repository.Habitat.HabitatRepository;
 
@@ -60,15 +57,9 @@ public class HabitatService {
     }
 
 
-     public ResponseEntity<EntityModel<Habitat>> created(HabitatDTO data){
+     public Habitat created(HabitatDTO data){
         Habitat newHabitat = new Habitat(data);
-        newHabitat = repository.save(newHabitat);
-        
-        newHabitat.add(linkTo(methodOn(HabitatController.class)).withRel("rel"));
-
-        return ResponseEntity
-            .created(newHabitat.toEntityModel().getRequiredLink("self").toUri())
-            .body(newHabitat.toEntityModel());
+        return repository.save(newHabitat);
     }
 
 

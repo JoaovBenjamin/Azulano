@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.pokedex.controller.Habitat.HabitatController;
 import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Animals.Animals;
-import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.repository.Animals.AnimalsRepository;
 
 

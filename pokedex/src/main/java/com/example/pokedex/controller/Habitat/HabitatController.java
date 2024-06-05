@@ -23,10 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.dto.Habitat.HabitatDTO;
-import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.model.Habitat.Habitat;
+import com.example.pokedex.repository.Habitat.HabitatRepository;
 import com.example.pokedex.service.Habitat.HabitatService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,6 +45,10 @@ public class HabitatController {
    
     @Autowired
     HabitatService service;
+
+
+    @Autowired
+    HabitatRepository repository;
 
      @Cacheable
     @GetMapping("/{id}")
@@ -95,7 +98,11 @@ public class HabitatController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ResponseEntity<EntityModel<Habitat>> created(@RequestBody @Valid HabitatDTO data){
-        return service.created(data);
+        Habitat newHabitat = service.created(data);
+
+        return ResponseEntity
+                            .created(newHabitat.createEntityModel(data).getRequiredLink("create").toUri())
+                            .body(newHabitat.createEntityModel(data));
     }
 
     @Operation(

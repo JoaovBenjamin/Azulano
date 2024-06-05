@@ -5,7 +5,6 @@ import org.springframework.hateoas.EntityModel;
 import com.example.pokedex.controller.Animals.AnimalsController;
 import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Habitat.Habitat;
-import com.example.pokedex.service.AnimalsService;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
