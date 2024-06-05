@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.service.AnimalsService;
 
@@ -93,7 +94,7 @@ public class AnimalsController {
     @CacheEvict(allEntries = true)
     @PostMapping
     @ResponseStatus(CREATED)
-    public ResponseEntity<EntityModel<Animals>> created(@RequestBody @Valid Animals data){
+    public ResponseEntity<EntityModel<Animals>> created(@RequestBody @Valid AnimalsDTO data){
         return service.created(data);
     }
 
@@ -107,7 +108,7 @@ public class AnimalsController {
     })
     @CacheEvict(allEntries = true)
     @PutMapping("{id}")
-    public ResponseEntity<EntityModel<Animals>> put(@RequestBody @Valid Animals data,@PathVariable Long id){
+    public ResponseEntity<EntityModel<Animals>> put(@RequestBody @Valid AnimalsDTO data,@PathVariable Long id){
         return service.put(id, data);
     }
 

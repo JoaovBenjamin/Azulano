@@ -52,9 +52,9 @@ public class Habitat extends EntityModel<Habitat>{
        public EntityModel<Habitat> toEntityModel(){
         return EntityModel.of(
             this,
-            linkTo(methodOn(HabitatController.class).searchById(id)).withSelfRel()
-            // linkTo(methodOn(AnimalsController.class).destroy(id)).withRel("delete"),
-            // linkTo(methodOn(AnimalsController.class).findByPages(null, null, null)).withRel("contents")
+            linkTo(methodOn(HabitatController.class).searchById(id)).withSelfRel(),
+            linkTo(methodOn(HabitatController.class).destroy(id)).withRel("delete"),
+            linkTo(methodOn(HabitatController.class).findByPages(null, null)).withRel("contents")
            
         );
     }
