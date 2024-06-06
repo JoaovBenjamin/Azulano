@@ -34,7 +34,7 @@ public class HabitatService {
 
     public EntityModel<Habitat> searchById(Long id){
         var habitat = repository.findById(id).orElseThrow(
-            () -> new IllegalArgumentException("Animal não encontrado")
+            () -> new IllegalArgumentException("Habitat não encontrado")
         );
 
         return habitat.toEntityModel();
@@ -58,9 +58,13 @@ public class HabitatService {
     }
 
 
-     public Habitat created(HabitatDTO data){
+     public ResponseEntity<EntityModel<Habitat>> created(HabitatDTO data){
         Habitat newHabitat = new Habitat(data);
-        return repository.save(newHabitat);
+        repository.save(newHabitat);
+
+        return ResponseEntity
+                            .created(newHabitat.toEntityModel().getRequiredLink("self").toUri())
+                            .body(newHabitat.toEntityModel());
     }
 
 
@@ -68,7 +72,7 @@ public class HabitatService {
         public ResponseEntity<EntityModel<Habitat>> put( Long id, HabitatDTO data) {
         verifyExistsId(id);
         Habitat putHabitat = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipamento não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
         BeanUtils.copyProperties(data, putHabitat, "id");
         repository.save(putHabitat);
         return ResponseEntity

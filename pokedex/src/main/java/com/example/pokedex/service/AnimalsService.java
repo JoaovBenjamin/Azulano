@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.pokedex.controller.Habitat.HabitatController;
 import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.repository.Animals.AnimalsRepository;
@@ -70,16 +69,20 @@ public class AnimalsService {
         return pageAssembler.toModel(page, Animals::toEntityModel);
     }
 
-    public Animals created(AnimalsDTO data){
+    public ResponseEntity<EntityModel<Animals>> created(AnimalsDTO data){
         Animals newAnimals = new Animals(data);
-        return repository.save(newAnimals);
+        repository.save(newAnimals);
+
+        return ResponseEntity
+        .created(newAnimals.toEntityModel().getRequiredLink("self").toUri())
+        .body(newAnimals.toEntityModel());
         
     }
 
         public ResponseEntity<EntityModel<Animals>> put( Long id, AnimalsDTO data) {
         verifyExistsId(id);
         Animals putAnimals = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipamento não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Animals não encontrado"));
         BeanUtils.copyProperties(data, putAnimals, "id");
         repository.save(putAnimals);
         return ResponseEntity

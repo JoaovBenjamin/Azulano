@@ -96,11 +96,7 @@ public class AnimalsController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ResponseEntity<EntityModel<Animals>> created(@RequestBody @Valid AnimalsDTO data){
-             Animals newAnimals = service.created(data);
-
-        return ResponseEntity
-                            .created(newAnimals.toEntityModel().getRequiredLink("self").toUri())
-                            .body(newAnimals.toEntityModel());
+            return service.created(data);
     }
 
     @Operation(

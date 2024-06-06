@@ -99,12 +99,7 @@ public class HabitatController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ResponseEntity<EntityModel<Habitat>> created(@RequestBody @Valid HabitatDTO data){
-        Habitat newHabitat = service.created(data);
-
-        return ResponseEntity
-                            .created(newHabitat.toEntityModel().getRequiredLink("self").toUri())
-                            .body(newHabitat.toEntityModel());
-
+        return service.created(data);
     }
 
     @Operation(
