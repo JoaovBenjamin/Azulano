@@ -3,6 +3,7 @@ package com.example.pokedex.service.Habitat;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,9 @@ public class HabitatService {
         BeanUtils.copyProperties(data, putHabitat, "id");
         repository.save(putHabitat);
         return ResponseEntity
-                            .created(putHabitat.toEntityModel().getRequiredLink("self").toUri())
-                            .body(putHabitat.toEntityModel());
+                            .ok(putHabitat.toEntityModel());
+                       
+                            
     }
         
     public ResponseEntity<Void> destroy(Long id){

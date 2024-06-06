@@ -28,17 +28,17 @@ import lombok.NoArgsConstructor;
 public class Habitat extends EntityModel<Habitat>{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    // @NotBlank(message = "{habitat.typehabitat.notblank}")
-    // @Size(message = "{habitat.typehabitat.size}", min = 5)
+    @NotBlank(message = "{habitat.typehabitat.notblank}")
+    @Size(message = "{habitat.typehabitat.size}", min = 5)
     private String typeHabitat;
-    // @NotBlank(message = "{habitat.typehabitat.notblank}")
-    // @Size(message = "{habitat.typehabitat.size}", min = 5)
+    @NotBlank(message = "{habitat.typehabitat.notblank}")
+    @Size(message = "{habitat.typehabitat.size}", min = 5)
     private String nameHabitat;
-    // @NotBlank(message = "{habitat.temperatureWater.notblank}")
-    // @Size(message = "{habitat.temperatureWater.size}", min = 2)
+    @NotBlank(message = "{habitat.temperatureWater.notblank}")
+    @Size(message = "{habitat.temperatureWater.size}", min = 2)
     private String temperatureWater;
-    // @NotBlank(message = "{habitat.phWater.notblank}")
-    // @Size(message = "{habitat.ph.size}", min = 2)
+    @NotBlank(message = "{habitat.phWater.notblank}")
+    @Size(message = "{habitat.ph.size}", min = 2)
     private String phWater;
 
     
@@ -63,11 +63,5 @@ public class Habitat extends EntityModel<Habitat>{
         );
     }
 
-    public EntityModel<Habitat> createEntityModel(HabitatDTO data){
-        return EntityModel.of(
-            this,
-            linkTo(methodOn(HabitatController.class).created(data)).withRel("create")           
-        );
-    }
 }
 

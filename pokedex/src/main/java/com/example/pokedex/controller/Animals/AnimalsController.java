@@ -25,10 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.pokedex.dto.Animals.AnimalsDTO;
 import com.example.pokedex.model.Animals.Animals;
+import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.service.AnimalsService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -95,7 +96,11 @@ public class AnimalsController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ResponseEntity<EntityModel<Animals>> created(@RequestBody @Valid AnimalsDTO data){
-        return service.created(data);
+             Animals newAnimals = service.created(data);
+
+        return ResponseEntity
+                            .created(newAnimals.toEntityModel().getRequiredLink("self").toUri())
+                            .body(newAnimals.toEntityModel());
     }
 
     @Operation(

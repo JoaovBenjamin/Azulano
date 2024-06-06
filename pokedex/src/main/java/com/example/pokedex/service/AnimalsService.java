@@ -70,17 +70,10 @@ public class AnimalsService {
         return pageAssembler.toModel(page, Animals::toEntityModel);
     }
 
-    public ResponseEntity<EntityModel<Animals>> created(AnimalsDTO data){
+    public Animals created(AnimalsDTO data){
         Animals newAnimals = new Animals(data);
-        newAnimals = repository.save(newAnimals);
+        return repository.save(newAnimals);
         
-        EntityModel<Animals> entityModel = EntityModel.of(newAnimals);
-        entityModel.add(linkTo(methodOn(HabitatController.class)).withRel("rel"));
-
-
-        return ResponseEntity
-                         .created(newAnimals.toEntityModel().getRequiredLink("self").toUri())
-                         .body(newAnimals.toEntityModel());
     }
 
         public ResponseEntity<EntityModel<Animals>> put( Long id, AnimalsDTO data) {
@@ -90,8 +83,7 @@ public class AnimalsService {
         BeanUtils.copyProperties(data, putAnimals, "id");
         repository.save(putAnimals);
         return ResponseEntity
-                            .created(putAnimals.toEntityModel().getRequiredLink("self").toUri())
-                            .body(putAnimals.toEntityModel());
+                            .ok(putAnimals.toEntityModel());
     }
 
     public ResponseEntity<Void> destroy(Long id){

@@ -27,9 +27,10 @@ import com.example.pokedex.dto.Habitat.HabitatDTO;
 import com.example.pokedex.model.Habitat.Habitat;
 import com.example.pokedex.repository.Habitat.HabitatRepository;
 import com.example.pokedex.service.Habitat.HabitatService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -101,8 +102,9 @@ public class HabitatController {
         Habitat newHabitat = service.created(data);
 
         return ResponseEntity
-                            .created(newHabitat.createEntityModel(data).getRequiredLink("create").toUri())
-                            .body(newHabitat.createEntityModel(data));
+                            .created(newHabitat.toEntityModel().getRequiredLink("self").toUri())
+                            .body(newHabitat.toEntityModel());
+
     }
 
     @Operation(
