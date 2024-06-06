@@ -38,7 +38,7 @@ public class Habitat extends EntityModel<Habitat>{
     @Size(message = "{habitat.temperatureWater.size}", min = 2)
     private String temperatureWater;
     @NotBlank(message = "{habitat.phWater.notblank}")
-    @Size(message = "{habitat.ph.size}", min = 2)
+    @Size(message = "{habitat.phWater.size}", min = 2)
     private String phWater;
 
     
