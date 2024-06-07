@@ -1,4 +1,4 @@
-package com.example.pokedex;
+package com.example.azulano;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
