@@ -33,16 +33,12 @@ public class DatabaseSeeder implements CommandLineRunner {
                   .builder()
                   .id(1L)
                   .nameHabitat("Recifes de Coral do Pacífico")
-                  .phWater("8.1")
-                  .temperatureWater("26")
                   .typeHabitat("Ambiente Marinho Tropical")
                   .build(),
           Habitat
                   .builder()
                   .id(2L)
                   .nameHabitat( "Costa da Califórnia")
-                  .phWater("8.0")
-                  .temperatureWater("15")
                   .typeHabitat( "Ambiente Marinho Temperado")
                   .build()
         )
@@ -57,7 +53,6 @@ public class DatabaseSeeder implements CommandLineRunner {
                    .diet("Peixes pequenos")
                    .habitat(habitatRepository.findById(1L).get())
                    .family("Delphinidae")
-                   .species("Tursiops truncatus")
                    .build(),
             Animals
                    .builder()
@@ -66,7 +61,6 @@ public class DatabaseSeeder implements CommandLineRunner {
                    .diet("Peixes pequenos")
                    .habitat(habitatRepository.findById(2L).get())
                    .family("Delphinidae")
-                   .species("Tursiops truncatus")
                    .build()
 
           )  

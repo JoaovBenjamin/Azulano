@@ -8,10 +8,12 @@ import com.example.pokedex.model.Habitat.Habitat;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,22 +28,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "T_AZL_SPECIES")
 public class Animals extends EntityModel<Animals>  {
+    @Column(name = "id_species")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "nm_comum")
     @NotBlank(message = "{animals.name.notblank}")
     @Size(min = 3, message = "{animals.name.size}")
     private String name;
+    @Column(name = "nm_cientifico")
     @NotBlank(message = "{animals.family.notblank}")
     @Size(message = "{animals.family.size}", min = 5)
     private String family;
+    @Column(name = "tx_descricao")
     @NotBlank(message = "{animals.diet.notblank}")
     @Size(message = "{animals.diet.size}", min = 5)
     private String diet;
-    @NotBlank(message = "{animals.species.notblank}")
-    @Size(message = "{animals.species.size}", min = 5)
-    private String species;
-    @ManyToOne()
     @NotNull(message = "{animals.habitat.notnull}")
     private Habitat habitat;    
 
@@ -50,7 +53,6 @@ public class Animals extends EntityModel<Animals>  {
         this.habitat =  data.habitat();
         this.family = data.family();
         this.name = data.name();
-        this.species = data.species();
     }
 
     public EntityModel<Animals> toEntityModel(){

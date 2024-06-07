@@ -21,10 +21,10 @@ import io.swagger.v3.oas.annotations.info.Info;
 		contact = @Contact(name = "João Vitor", email = "joaovitorvicentebenjamin@gmail.com")
 	)
 )
-public class PokedexApplication {
+public class AzulanoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PokedexApplication.class, args);
+		SpringApplication.run(AzulanoApplication.class, args);
 	}
 
 }
