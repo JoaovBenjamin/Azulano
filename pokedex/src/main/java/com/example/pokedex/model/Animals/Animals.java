@@ -45,6 +45,7 @@ public class Animals extends EntityModel<Animals>  {
     @NotBlank(message = "{animals.diet.notblank}")
     @Size(message = "{animals.diet.size}", min = 5)
     private String diet;
+    @ManyToOne()
     @NotNull(message = "{animals.habitat.notnull}")
     private Habitat habitat;    
 

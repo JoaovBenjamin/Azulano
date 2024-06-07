@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "T_AZL_LOCATIONS")
+@Table(name = "T_AZL_LOCATIONS ")
 public class Locations extends EntityModel<Locations> {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_location")
@@ -40,7 +40,7 @@ public class Locations extends EntityModel<Locations> {
     @NotBlank(message = "location.longitude.notblank")
     private String longitude;
     @NotNull(message = "location.animal.notnull")
-    @ManyToOne
+    @ManyToOne()
     private Animals animal;
 
     public Locations(LocationsDTO data){

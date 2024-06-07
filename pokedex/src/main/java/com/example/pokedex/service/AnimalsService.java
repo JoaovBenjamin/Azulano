@@ -45,19 +45,19 @@ public class AnimalsService {
 
     public PagedModel<EntityModel<Animals>> findByPages(
         @RequestParam(required = false) String name,
-        @RequestParam(required = false) String species,
+        @RequestParam(required = false) String family,
         @PageableDefault(size = 5,direction = Direction.DESC) Pageable pageable
     ){
         Page<Animals> page = null;
 
-        if(name != null && species != null){
-            page = repository.findByNameAndSpecies(name, species, pageable);
+        if(name != null && family != null){
+            page = repository.findByNameAndFamily(name, family, pageable);
         }
         if(name != null){
             page = repository.findByName(name, pageable);
         }
-        if(species != null){
-            page = repository.findBySpecies(species, pageable);
+        if(family != null){
+            page = repository.findByFamily(family, pageable);
         }
 
         if(page == null){

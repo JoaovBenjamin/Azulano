@@ -76,11 +76,11 @@ public class AnimalsController {
     @GetMapping()
      public PagedModel<EntityModel<Animals>> findByPages(
         @RequestParam(required = false) String name,
-        @RequestParam(required = false) String species,
+        @RequestParam(required = false) String family,
         @PageableDefault(size = 5,direction = Direction.DESC) Pageable pageable
     ){
         log.info("Paginação");
-        return service.findByPages(name, species, pageable);
+        return service.findByPages(name, family, pageable);
     }
 
     @Operation(
