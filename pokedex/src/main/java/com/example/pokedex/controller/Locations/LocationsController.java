@@ -1,4 +1,5 @@
-package com.example.pokedex.controller.Habitat;
+package com.example.pokedex.controller.Locations;
+
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -18,17 +19,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.pokedex.dto.Habitat.HabitatDTO;
-import com.example.pokedex.model.Habitat.Habitat;
-import com.example.pokedex.repository.Habitat.HabitatRepository;
-import com.example.pokedex.service.Habitat.HabitatService;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import com.example.pokedex.dto.Locations.LocationsDTO;
+import com.example.pokedex.model.Locations.Locations;
+import com.example.pokedex.service.Locations.LocationsService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,91 +36,91 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-@CacheConfig(cacheNames = "habitat")
+@CacheConfig(cacheNames = "locations")
 @RestController
 @Slf4j
-@RequestMapping("/habitat")
-@Tag(name = "Habitats")
-public class HabitatController {
+@RequestMapping("/locations")
+@Tag(name = "Locations")
+public class LocationsController {
    
     @Autowired
-    HabitatService service;
+    LocationsService service;
 
 
-    @Autowired
-    HabitatRepository repository;
+    
 
-     @Cacheable
+    @Cacheable
     @GetMapping("/{id}")
-     @Operation(
-        summary = "Listar Habitat por Id",
-        description = "Retorna um Habitat por id"
+    @Operation(
+        summary = "Listar Localização por Id",
+        description = "Retorna uma Localização por id"
     )
     @ApiResponses(
         {
-            @ApiResponse(responseCode = "200", description = "Habitat retornado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Localização retornado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Não encontrado")
         }
     )
-    public EntityModel<Habitat> searchById(@PathVariable Long id){
+    public EntityModel<Locations> searchById(@PathVariable Long id){
         log.info("Buscando animal com o id {}", id);
         return service.searchById(id);
     }
 
      @Operation(
-        summary = "Listar Habitats de animais",
-        description = "Retorna uma paginação de Habitats"
+        summary = "Listar Locations de animais",
+        description = "Retorna uma paginação de Locations"
     )
     @ApiResponses(
         {
-            @ApiResponse(responseCode = "200", description = "Habitats retornado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Locations retornado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Não encontrado")
         }
     )
     @GetMapping()
-     public PagedModel<EntityModel<Habitat>> findByPages(
-        @RequestParam(required = false) String nameHabitat,
+     public PagedModel<EntityModel<Locations>> findByPages(
+        @RequestParam(required = false) String latitude,
+        @RequestParam(required = false) String longitude,
         @PageableDefault(size = 5,direction = Direction.DESC) Pageable pageable
     ){
         log.info("Paginação");
-        return service.findByPages(nameHabitat,pageable);
+        return service.findByPages(latitude,longitude,pageable);
     }
 
     @Operation(
-        summary = "Criar Habitat",
-        description = "Cria um habitat com os dados do corpo da requisição"
+        summary = "Criar Locations",
+        description = "Cria um Location com os dados do corpo da requisição"
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Habitat criado com sucesso"),
+        @ApiResponse(responseCode = "201", description = "Location criado com sucesso"),
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique os dados enviados no corpo da requisição")
     })
     @CacheEvict(allEntries = true)
     @PostMapping
     @ResponseStatus(CREATED)
-    public ResponseEntity<EntityModel<Habitat>> created(@RequestBody @Valid HabitatDTO data){
+    public ResponseEntity<EntityModel<Locations>> created(@RequestBody @Valid LocationsDTO data){
         return service.created(data);
     }
 
     @Operation(
-        summary = "Atualizar Habitat",
-        description = "Atualiza habitat de acordo com os dados no corpo da requisição"
+        summary = "Atualizar Locations",
+        description = "Atualiza Locations de acordo com os dados no corpo da requisição"
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Habitat atualizado com sucesso"),
+        @ApiResponse(responseCode = "200", description = "Locations atualizado com sucesso"),
         @ApiResponse(responseCode = "400", description = "Validação falhou. Verifique os dados enviados no corpo da requisição")
     })
     @CacheEvict(allEntries = true)
     @PutMapping("{id}")
-    public ResponseEntity<EntityModel<Habitat>> put(@RequestBody @Valid HabitatDTO data,@PathVariable Long id){
+    public ResponseEntity<EntityModel<Locations>> put(@RequestBody @Valid LocationsDTO data,@PathVariable Long id){
         return service.put(id, data);
     }
 
      @Operation(
-        summary = "Deletar Habitat",
-        description = "Deleta Habitat com id passado no path"
+        summary = "Deletar Locations",
+        description = "Deleta Locations com id passado no path"
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "204", description = "Habitat deletado com sucesso"),
+        @ApiResponse(responseCode = "204", description = "Locations deletado com sucesso"),
         @ApiResponse(responseCode = "404", description = "Not found")
     })
     @CacheEvict(allEntries = true)

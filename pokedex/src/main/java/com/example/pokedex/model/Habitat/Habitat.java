@@ -2,7 +2,6 @@ package com.example.pokedex.model.Habitat;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.http.HttpStatus.CREATED;
 
 import org.springframework.hateoas.EntityModel;
 

@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.pokedex.model.Animals.Animals;
 import com.example.pokedex.model.Habitat.Habitat;
+import com.example.pokedex.model.Locations.Locations;
 import com.example.pokedex.repository.Animals.AnimalsRepository;
 import com.example.pokedex.repository.Habitat.HabitatRepository;
+import com.example.pokedex.repository.Locations.LocationsRepository;
 
 @Configuration
 public class DatabaseSeeder implements CommandLineRunner {
@@ -19,6 +21,8 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Autowired
     HabitatRepository habitatRepository;
+
+    @Autowired LocationsRepository locationsRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -68,7 +72,24 @@ public class DatabaseSeeder implements CommandLineRunner {
           )  
         );
 
+        locationsRepository.saveAll(
+          List.of(
+            Locations
+                    .builder()
+                    .animal(animalsRepository.findById(1L).get())
+                    .latitude("10*20*23")
+                    .longitude("10*23*01")
+                    .build(),
+          
+            Locations
+                    .builder()
+                    .animal(animalsRepository.findById(2L).get())
+                    .latitude("10*20*23")
+                    .longitude("10*23*01")
+                    .build()
         
+        )
+      );
     }
     
 }

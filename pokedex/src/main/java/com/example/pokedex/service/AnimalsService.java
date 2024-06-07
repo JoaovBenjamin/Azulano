@@ -1,7 +1,5 @@
 package com.example.pokedex.service;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import org.springframework.beans.BeanUtils;
